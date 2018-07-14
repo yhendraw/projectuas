@@ -1,0 +1,66 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $("#insert").click(function() {
+            var kdmk = $("#kdmk").val();
+            var nmmk = $("#nmmk").val();
+            var sks = $("#sks").val();
+            var dataString = "kdmk=" + kdmk + "&nmmk=" + nmmk + "&sks=" + sks + "&insert=";
+            if ($.trim(kdmk).length > 0 & $.trim(nmmk).length > 0 & $.trim(sks).length > 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "https://karikuri0096com.000webhostapp.com/insert-matakuliah.php",
+                    data: dataString,
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function() {
+                        $("#insert").val('Connecting...');
+                    },
+                    success: function(data) {
+                        if (data == "success") {
+                            alert("inserted");
+                            $("#insert").val('submit');
+                        } else if (data == "error") {
+                            alert("error");
+                        }
+                    }
+                });
+            }
+            return false;
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="bar bar-header bar-positive" style="margin-bottom:80px;">
+        <h1 class="title">Input Matakuliah</h1>
+        <a class="button button-clear" href="readjson-matakuliah.html">List Matakuliah</a>
+    </div>
+    <br/>
+    <br/>
+    <div class="list">
+        <input type="hidden" id="id" value="" />
+        <div class="item">
+            <label>Kode Matakuliah</label>
+            <input type="text" id="kdmk" value="" />
+        </div>
+        <div class="item">
+            <label>Nama Matakuliah</label>
+            <input type="text" id="nmmk" value="" />
+        </div>
+        <div class="item">
+            <label>Jumlah SKS</label>
+            <input type="text" id="sks" value="" />
+        </div>
+        <div class="item">
+            <input type="button" id="insert" class="button button-block" value="Insert" />
+        </div>
+    </div>
+</body>
+
+</html>

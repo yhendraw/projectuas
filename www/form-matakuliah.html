@@ -1,0 +1,102 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/geturi.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var id = decodeURI(getUrlVars()["id"]);
+        var kdmk = decodeURI(getUrlVars()["kdmk"]);
+        var nmmk = decodeURI(getUrlVars()["nmmk"]);
+        var sks = decodeURI(getUrlVars()["sks"]);
+        $("#id").val(id);
+        $("#kdmk").val(kdmk);
+        $("#nmmk").val(nmmk);
+        $("#sks").val(sks);
+        
+        $("#update").click(function() {
+            var id = $("#id").val();
+            var kdmk = $("#kdmk").val();
+            var nmmk = $("#nmmk").val();
+            var sks = $("#sks").val();
+            
+            var dataString ="id=" + id + "kdmk=" + kdmk + "&nmmk=" + nmmk + "&sks=" + sks + "&update=";
+            $.ajax({
+                type: "POST",
+                url: "https://karikuri0096com.000webhostapp.com/update-matakuliah.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function() {
+                    $("#update").val('Connecting...');
+                },
+                success: function(data) {
+                    if (data == "success") {
+                        alert("Updated");
+                        $("#update").val("Update");
+                    } else if (data == "error") {
+                        alert("error");
+                    }
+                }
+            });
+
+        });
+        $("#delete").click(function() {
+             var id = $("#id").val();
+            var dataString = "id=" + id + "&delete=";
+            $.ajax({
+                type: "GET",
+                url: "https://karikuri0096com.000webhostapp.com/delete-matakuliah.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function() {
+                    $("#delete").val('Connecting...');
+                },
+                success: function(data) {
+                    if (data == "success") {
+                        alert("Deleted");
+                        $("#delete").val("Delete");
+                    } else if (data == "error") {
+                        alert("error");
+                    }
+                }
+            });
+
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="bar bar-header bar-positive" style="margin-bottom:80px;">
+        <a href="index.html" class="button button-clear">Home</a>
+        <h1 class="title">Update Database</h1>
+        <a class="button button-clear" href="readjson-matakuliah.html">List Mata Kuliah</a>
+    </div>
+    <br/>
+    <br/>
+    <div class="list">
+        <input type="hidden" id="id" value="" />
+        <div class="item">
+            <label>Nama Matakuliah</label>
+            <input type="text" id="nmmk" value="" />
+        </div>
+         <div class="item">
+            <label>Kode Matakuliah</label>
+            <input type="text" id="kdmk" value="" />
+        </div>
+        <div class="item">
+            <label>Jumlah SKS</label>
+            <input type="text" id="sks" value="" />
+        </div>
+        
+        <div class="item">
+            <input type="button" id="update" class="button button-block" value="Update" />
+            <input type="button" id="delete" class="button button-block" value="Delete" />
+        </div>
+    </div>
+</body>
+
+</html>
